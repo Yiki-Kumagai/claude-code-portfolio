@@ -1,0 +1,272 @@
+# ============================================================
+# Design Prompt — Dark Developer Theme
+# ============================================================
+# 抽象化されたデザインシステム。配色・雰囲気・タイポ・コンポーネント
+# の設計指針を記述。特定のコンテンツやレイアウトには依存しない。
+# ============================================================
+
+meta:
+  name: Dark Developer Theme
+  mood: ["professional", "technical", "calm", "trustworthy"]
+  target_audience: developers, AI engineers, tech consultants
+  language: ja  # 主言語。en にも転用可能
+
+# ------------------------------------------------------------
+# Color System
+# ------------------------------------------------------------
+color:
+  # ベース（背景レイヤー）
+  background:
+    base:     "#0a0a0f"   # 最深部。ほぼ黒に近い青みがかった暗色
+    surface:  "#111118"   # セクション背景
+    elevated: "#16161f"   # カード・パネルなどの浮き要素
+
+  # ボーダー・区切り線
+  border:
+    default: "#242433"    # 控えめ。背景との差が小さい
+    hover:   "rgba(124,110,245,0.5)"  # アクセントカラーの半透明
+
+  # テキスト
+  text:
+    primary: "#e8e8f0"   # メインテキスト。純白を避けた柔らかい白
+    muted:   "#888899"   # 補足・キャプション・ラベル
+
+  # アクセント（ブランドカラー）
+  accent:
+    base:    "#7c6ef5"   # 紫〜インディゴ。CTAや強調に使用
+    light:   "#a89cf7"   # ライトバリアント。テキストリンクやグラデーション終端
+    glow:    "rgba(124,110,245,0.12)"  # ホバー時の後光・背景ハイライト
+
+  # カテゴリタグ用カラーパレット（意味別に色分け）
+  tag_palette:
+    - label: agent    # AIエージェント系
+      bg:    "rgba(124,110,245,0.15)"
+      text:  "#a89cf7"
+    - label: skill    # スキル・機能系
+      bg:    "rgba(34,197,94,0.12)"
+      text:  "#4ade80"
+    - label: auto     # 自動化・バッチ系
+      bg:    "rgba(251,146,60,0.12)"
+      text:  "#fb923c"
+    - label: git      # バージョン管理系
+      bg:    "rgba(56,189,248,0.12)"
+      text:  "#38bdf8"
+    - label: mcp      # プロトコル・インテグレーション系
+      bg:    "rgba(244,114,182,0.12)"
+      text:  "#f472b6"
+
+# ------------------------------------------------------------
+# Typography
+# ------------------------------------------------------------
+typography:
+  font_stack: >
+    -apple-system, BlinkMacSystemFont,
+    'Hiragino Sans', 'Yu Gothic UI', sans-serif
+  # 日本語環境を想定しつつシステムフォントで軽量に保つ
+
+  scale:
+    hero_heading:
+      size: "clamp(28px, 5vw, 44px)"
+      weight: 800
+      line_height: 1.25
+      letter_spacing: "-0.02em"  # 大きいサイズは詰める
+
+    section_title:
+      size: "22px"
+      weight: 700
+
+    section_label:          # セクション上部の小ラベル
+      size: "11px"
+      weight: 700
+      letter_spacing: "0.1em"
+      text_transform: uppercase
+      color_role: accent.base
+
+    card_title:
+      size: "14px"
+      weight: 700
+
+    body:
+      size: "13-15px"
+      weight: 400
+      line_height: 1.6
+      color_role: text.muted
+
+    caption:
+      size: "10-11px"
+      weight: 500-600
+      color_role: text.muted
+
+# ------------------------------------------------------------
+# Surface & Depth
+# ------------------------------------------------------------
+depth:
+  # 奥行きは色の明度差で表現。影は最小限。
+  principle: >
+    グラデーションや影に頼らず、背景色の明度差
+    （base → surface → elevated）で階層を表現する。
+    box-shadow は hover 時の accent glow のみ使用。
+
+  card_hover_shadow: "0 8px 32px rgba(124,110,245,0.12)"
+  card_hover_translate: "translateY(-2px)"
+  card_transition: "border-color 0.2s, transform 0.2s, box-shadow 0.2s"
+
+# ------------------------------------------------------------
+# Shape & Spacing
+# ------------------------------------------------------------
+shape:
+  border_radius:
+    small:  "4-6px"    # タグ・バッジ
+    medium: "10px"     # カード・パネル（主力）
+    large:  "14px"     # モーダル・ボトムシート
+    pill:   "20px"     # バッジ・ヒーローラベル
+
+  spacing_rhythm: 8px  # 8px グリッド基準
+  section_gap: "64-80px"
+
+# ------------------------------------------------------------
+# Navigation
+# ------------------------------------------------------------
+navigation:
+  style: sticky_top
+  height: "52px"
+  background: "rgba(10,10,15,0.85)"  # 半透明＋blur
+  backdrop_filter: "blur(12px)"
+  border_bottom: true
+  border_color: color.border.default
+  link_style:
+    default_color: text.muted
+    hover_color:   text.primary
+    transition: "color 0.2s"
+    font_size: "13px"
+
+# ------------------------------------------------------------
+# Hero Section
+# ------------------------------------------------------------
+hero:
+  alignment: center
+  max_width: "760px"
+  padding: "80px 24px 64px"
+
+  badge:
+    style: outlined_pill
+    bg:    "rgba(124,110,245,0.12)"
+    border:"rgba(124,110,245,0.3)"
+    color: accent.light
+    font_size: "11px"
+    letter_spacing: "0.05em"
+
+  headline:
+    highlight_color: accent.light   # キーワードをアクセントカラーで強調
+    max_lines: 2
+
+  tag_list:
+    style: flat_chip               # 枠線あり・背景は elevated
+    font_size: "11px"
+    layout: flex_wrap_centered
+
+# ------------------------------------------------------------
+# Card Component
+# ------------------------------------------------------------
+card:
+  background:    color.elevated
+  border:        "1px solid {color.border.default}"
+  border_radius: shape.border_radius.medium
+  overflow:      hidden
+
+  thumbnail:
+    aspect_ratio: "16/9"
+    object_fit:   cover
+    object_position: top           # スクリーンショットは上部が重要
+    fallback: colored_placeholder  # 画像なし時は背景色＋絵文字
+
+  metadata_row:
+    layout: space_between          # 番号 left / タグ right
+    font_size: "10px"
+    color: text.muted
+
+  tag:
+    font_size: "9px"
+    font_weight: 700
+    letter_spacing: "0.05em"
+    border_radius: shape.border_radius.small
+    use_semantic_palette: true     # tag_palette から意味別に色を選ぶ
+
+  hover:
+    border_color: "rgba(124,110,245,0.5)"
+    transform: depth.card_hover_translate
+    box_shadow: depth.card_hover_shadow
+
+# ------------------------------------------------------------
+# Modal / Detail Overlay
+# ------------------------------------------------------------
+modal:
+  overlay_bg: "rgba(0,0,0,0.75)"
+  overlay_blur: "blur(4px)"
+  panel:
+    background:    color.elevated
+    border:        "1px solid {color.border.default}"
+    border_radius: shape.border_radius.large
+    max_width: "720px"
+    max_height: "88vh"
+    overflow_y: auto
+  image:
+    width: 100%
+    max_height: "420px"
+    object_fit: contain
+    bg: "#0d0d1a"               # 画像下地は最暗色
+
+# ------------------------------------------------------------
+# Atmosphere & Visual Tone
+# ------------------------------------------------------------
+atmosphere:
+  overall: >
+    「静かな技術的信頼感」。派手なアニメーションや
+    グラデーションを排除し、余白と暗色で落ち着きを演出する。
+    見る人に「ちゃんとしている」という印象を与えることが最優先。
+
+  do:
+    - 背景は深い暗色で統一し、コンテンツを浮かび上がらせる
+    - アクセントカラーは紫〜インディゴ系1色に絞る
+    - ホバー時のみ微細なアニメーション（2px 浮上 + glow）
+    - セクションラベルはすべて大文字・小さいサイズで格調を出す
+    - 余白を広めに取り、窮屈さを感じさせない
+
+  do_not:
+    - 複数の鮮やかな色を並列で使わない（タグ以外）
+    - グラデーション背景・メッシュ・ノイズテクスチャは使わない
+    - アニメーションで動き続ける要素を置かない
+    - 純白（#ffffff）テキストを使わない（目に刺さるため）
+    - カード内に情報を詰めすぎない
+
+# ------------------------------------------------------------
+# Interaction Principles
+# ------------------------------------------------------------
+interaction:
+  cursor: pointer on all clickable cards
+  hover_feedback: border_glow + subtle_lift  # カードのみ
+  focus_ring: "2px solid {accent.base}"      # アクセシビリティ
+  transition_default: "0.2s ease"
+  modal_open_trigger: card_click
+  modal_close_trigger: overlay_click or close_button
+
+# ------------------------------------------------------------
+# Responsive
+# ------------------------------------------------------------
+responsive:
+  grid_columns:
+    default: "repeat(auto-fill, minmax(280px, 1fr))"
+    mobile:  "1fr"
+  hero_font_scale: clamp  # viewport 幅に応じて自動スケール
+  nav_breakpoint: "768px"
+
+# ------------------------------------------------------------
+# Reuse Notes
+# ------------------------------------------------------------
+reuse_notes: >
+  このテーマは「実績を見せる」用途に限らず、
+  ドキュメントサイト・SaaSランディング・技術ブログにも転用可能。
+  accent カラーを変更するだけで別ブランドに対応できる。
+  （例: 青系 → エンジニア向け / 緑系 → OSS / 赤系 → セキュリティ）
+  コンテンツの種類に関わらず、color / typography / atmosphere の
+  3セクションが設計の核心。
